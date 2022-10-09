@@ -8,9 +8,6 @@ import logging
 from logstash_formatter import LogstashFormatterV1
 from statsd import StatsClient
 
-
-__version__ = "prd"
-
 def init_metrics( host: str, prefix: str|None =None, port: int =8125) -> StatsClient: 
     """
     This function initialize the metrics.
