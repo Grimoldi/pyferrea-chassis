@@ -6,8 +6,8 @@ This module encapsule all the nodes related to a user, such as:
 - his reading(s)
 """
 
-import models.models as models
 import py2neo.ogm as ogm
+from class_models import models
 
 
 class UserNode(ogm.GraphObject):
@@ -27,7 +27,7 @@ class UserNode(ogm.GraphObject):
     card_nr = ogm.Property()
     phone = ogm.Property()
 
-    reads = ogm.RelatedTo("ReadingNode", "DOES READ")
+    reads = ogm.RelatedTo("ReadingNode", "DOES_READ")
     holds = ogm.RelatedTo("ReservationNode", "HOLDS")
     role = ogm.RelatedTo("RoleNode", "HAS_ROLE")
 
@@ -75,6 +75,9 @@ class ReservationNode(ogm.GraphObject):
     This class defines the Reservation node, with it's properties and relationships.
     """
 
+    reserverd_on = ogm.RelatedTo("DayNode", "RESERVED_ON")
+    reserved_copy = ogm.RelatedTo("BookCopyNode", "RESERVED_COPY")
+
     def __init__(self) -> None:
         """
         Getting the attributes from the model object, then calling the super to init the node object.
@@ -86,6 +89,9 @@ class ReadingNode(ogm.GraphObject):
     """
     This class defines the Reading node, with it's properties and relationships.
     """
+
+    read_from = ogm.RelatedTo("DayNode", "READ_FROM")
+    read_to = ogm.RelatedTo("DayNode", "READ_TO")
 
     def __init__(self) -> None:
         """

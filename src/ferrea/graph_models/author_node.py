@@ -1,5 +1,5 @@
-import models.models as models
 import py2neo.ogm as ogm
+from class_models import models
 
 
 class AuthorNode(ogm.GraphObject):

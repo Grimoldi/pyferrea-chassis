@@ -7,8 +7,8 @@ This module encapsule all the nodes related to a copy of a book, such as:
 - the saga
 """
 
-import models.models as models
 import py2neo.ogm as ogm
+from class_models import models
 
 
 class BookNode(ogm.GraphObject):
