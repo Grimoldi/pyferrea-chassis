@@ -3,44 +3,11 @@ import uuid
 from datetime import datetime
 from enum import Enum
 from platform import platform
-from typing import Protocol
 
 import geopy
 from attrs import define, field
-from graph_models.author_node import AuthorNode
-from graph_models.book_node import (
-    BookCopyNode,
-    BookFormatNode,
-    BookNode,
-    PublisherNode,
-    SagaNode,
-)
-from graph_models.library_node import LibraryNode
-from graph_models.user import (
-    ReadingNode,
-    ReservationNode,
-    UserNode,
-    UserRoleNode,
-)
-from py2neo import ogm
 
 import class_models._validators as custom_validators
-
-
-@define
-class BaseModel(Protocol):
-    """
-    This class describes how any instance should be structured using a Protocol.
-    """
-
-    def as_node(self) -> type[ogm.GraphObject]:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            type[ogm.GraphObject]: the appropriate GraphObject subclass.
-        """
-        ...
 
 
 @define
@@ -52,15 +19,6 @@ class Author:
     author: str
     author_sort: str = field(default=None)
     portrait_url: str = field(default=None, validator=[custom_validators.validate_url])
-
-    def as_node(self) -> AuthorNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            AuthorNode: the representation of the class as a Neo4j node.
-        """
-        return AuthorNode(self)
 
 
 @define
@@ -75,15 +33,6 @@ class Book:
     plot: str = field(default=None)
     title_sort: str = field(default=None)
     cover_url: str = field(default=None, validator=[custom_validators.validate_url])
-
-    def as_node(self) -> BookNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            BookNode: the representation of the class as a Neo4j node.
-        """
-        return BookNode(self)
 
 
 @define
@@ -105,15 +54,6 @@ class BookCopy:
         """
         return int(f"{self.barcode}{str(self.copy_nr).zfill(3)}")
 
-    def as_node(self) -> BookCopyNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            BookCopyNode: the representation of the class as a Neo4j node.
-        """
-        return BookCopyNode(self)
-
 
 @define
 class BookFormat:
@@ -122,15 +62,6 @@ class BookFormat:
     """
 
     book_format: str
-
-    def as_node(self) -> BookFormatNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            BookFormatNode: the representation of the class as a Neo4j node.
-        """
-        return BookFormatNode(self)
 
 
 @define
@@ -145,15 +76,6 @@ class Library:
     email: str = field(default=None)
     phone: int = field(default=None)
 
-    def as_node(self) -> LibraryNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            LibraryNode: the representation of the class as a Neo4j node.
-        """
-        return LibraryNode(self)
-
 
 @define
 class Publisher:
@@ -163,15 +85,6 @@ class Publisher:
 
     publishing: str
 
-    def as_node(self) -> PublisherNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            PublisherNode: the representation of the class as a Neo4j node.
-        """
-        return PublisherNode(self)
-
 
 @define
 class Reading:
@@ -179,30 +92,12 @@ class Reading:
     This class describes how a Reading instance should be structured.
     """
 
-    def as_node(self) -> ReadingNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            ReadingNode: the representation of the class as a Neo4j node.
-        """
-        return ReadingNode()
-
 
 @define
 class Reservation:
     """
     This class describes how a Reservation instance should be structured.
     """
-
-    def as_node(self) -> ReservationNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            ReservationNode: the representation of the class as a Neo4j node.
-        """
-        return ReservationNode()
 
 
 @define
@@ -212,15 +107,6 @@ class Saga:
     """
 
     series: str
-
-    def as_node(self) -> SagaNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            SagaNode: the representation of the class as a Neo4j node.
-        """
-        return SagaNode(self)
 
 
 @define
@@ -255,20 +141,6 @@ class User:
         """
         self.card_nr = card_nr
 
-    def as_node(self) -> UserNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Raises:
-            ValueError: if either card_nr or userid are not set.
-
-        Returns:
-            UserNode: the representation of the class as a Neo4j node.
-        """
-        if self.userid is None or self.card_nr is None:
-            raise ValueError(f"Both userid and card_nr must be not null.")
-        return UserNode(self)
-
 
 class UserRoles(Enum):
     """
@@ -287,15 +159,6 @@ class UserRole:
     """
 
     role: UserRoles
-
-    def as_node(self) -> UserRoleNode:
-        """
-        Converts the class to an ogm.GraphObject subclass.
-
-        Returns:
-            UserRoleNode: the representation of the class as a Neo4j node.
-        """
-        return UserRoleNode(self)
 
 
 @define
