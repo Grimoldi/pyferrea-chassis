@@ -7,7 +7,7 @@ from platform import platform
 import geopy
 from attrs import define, field, validators
 
-import class_models._validators as custom_validators
+import models._validators as custom_validators
 
 
 @define
