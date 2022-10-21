@@ -4,10 +4,9 @@ from datetime import datetime
 from enum import Enum
 from platform import platform
 
+import ferrea.models._validators as custom_validators
 import geopy
 from attrs import define, field, validators
-
-import models._validators as custom_validators
 
 
 @define
