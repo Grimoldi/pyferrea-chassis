@@ -5,7 +5,7 @@ from enum import Enum
 from platform import platform
 
 import geopy
-from attrs import define, field
+from attrs import define, field, validators
 
 import class_models._validators as custom_validators
 
@@ -85,6 +85,14 @@ class Publisher:
 
     publishing: str
 
+@define
+class Rating:
+    """
+    This class describes how a Rating instance should be structured.
+    Note that this is a meant to be a relationship object (the only one).
+    """
+
+    star: int = field(validator=[validators.gt(0), validators.le(5)])
 
 @define
 class Reading:
