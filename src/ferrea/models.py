@@ -6,7 +6,6 @@ from platform import platform
 
 import geopy
 from attrs import define, field, validators
-from yaml import ValueToken
 
 import ferrea._validators as custom_validators
 
@@ -228,7 +227,9 @@ class Datasource:
     title: str
     author: list[str]
     publishing: str = field(default=None)
-    published_on: int = field(default=1, validator=[validators.gt(0)])
+    published_on: int = field(
+        default=None, validator=custom_validators.validate_publishing_year
+    )
     cover: str = field(default=None)
     plot: str = field(default=None)
     language: list[str] = field(default=None)
