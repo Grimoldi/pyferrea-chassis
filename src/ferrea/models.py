@@ -6,6 +6,7 @@ from platform import platform
 
 import geopy
 from attrs import define, field, validators
+from yaml import ValueToken
 
 import ferrea._validators as custom_validators
 
@@ -85,6 +86,7 @@ class Publisher:
 
     publishing: str
 
+
 @define
 class Rating:
     """
@@ -93,6 +95,7 @@ class Rating:
     """
 
     star: int = field(validator=[validators.gt(0), validators.le(5)])
+
 
 @define
 class Reading:
@@ -214,3 +217,20 @@ class Day:
     @property
     def day(self) -> int:
         return self.date.day
+
+
+@define
+class Datasource:
+    """
+    This class describes how a Datasource instance should be structured.
+    """
+
+    title: str
+    author: list[str]
+    publishing: str = field(default=None)
+    published_on: int = field(default=1, validator=[validators.gt(0)])
+    cover: str = field(default=None)
+    plot: str = field(default=None)
+    language: list[str] = field(default=None)
+    book_format: str = field(default=None)
+    author_portrait: str = field(default=None)
