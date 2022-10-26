@@ -18,14 +18,14 @@ pip install git+https://github.com/Grimoldi/pyferrea-chassis.git --upgrade
 For the chassis, you can directly import the _helpers_ module and call from it any function you need to init the appropriate helper.
 
 ``` python
-from ferrea.chassis import helpers
-logger = helpers.init_logger()
+from ferrea import chassis
+logger = chassis.init_logger()
 ```
 
 For the models, in the same way, you can import the _models_ module and refer to any of its class.
 
 ``` python
-from ferrea.models import models  # I know, short on fantasy for name
+from ferrea. import models
 author = models.Author("EG")
 rating = models.Rating(5)
 ```
