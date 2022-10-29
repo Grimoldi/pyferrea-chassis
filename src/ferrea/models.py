@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime
 from enum import Enum
 from platform import platform
+from typing import Any
 
 import geopy
 from attrs import define, field, validators
@@ -20,6 +21,19 @@ class Author:
     author_sort: str = field(default=None)
     portrait_url: str = field(default=None, validator=[custom_validators.validate_url])
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "author": self.author,
+            "author_sort": self.author_sort,
+            "portrait_url": self.portrait_url,
+        }
+
 
 @define
 class Book:
@@ -33,6 +47,22 @@ class Book:
     plot: str = field(default=None)
     title_sort: str = field(default=None)
     cover_url: str = field(default=None, validator=[custom_validators.validate_url])
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "isbn": self.isbn,
+            "title": self.title,
+            "title_sort": self.title_sort,
+            "language": self.language,
+            "plot": self.plot,
+            "cover_url": self.cover_url,
+        }
 
 
 @define
@@ -54,6 +84,18 @@ class BookCopy:
         """
         return int(f"{self.barcode}{str(self.copy_nr).zfill(3)}")
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "copy_nr": self.copy_nr,
+            "barcode": self.barcode,
+        }
+
 
 @define
 class BookFormat:
@@ -62,6 +104,17 @@ class BookFormat:
     """
 
     book_format: str
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "book_format": self.book_format,
+        }
 
 
 @define
@@ -76,6 +129,21 @@ class Library:
     email: str = field(default=None)
     phone: int = field(default=None)
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "email": self.email,
+            "address": self.address,
+            "location": self.location,
+            "name": self.name,
+            "phone": self.phone,
+        }
+
 
 @define
 class Publisher:
@@ -85,6 +153,17 @@ class Publisher:
 
     publishing: str
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "publishing": self.publishing,
+        }
+
 
 @define
 class Rating:
@@ -93,7 +172,18 @@ class Rating:
     Note that this is a meant to be a relationship object (the only one).
     """
 
-    star: int = field(validator=[validators.gt(0), validators.le(5)])
+    stars: int = field(validator=[validators.gt(0), validators.le(5)])
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "star": self.stars,
+        }
 
 
 @define
@@ -102,12 +192,30 @@ class Reading:
     This class describes how a Reading instance should be structured.
     """
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {}
+
 
 @define
 class Reservation:
     """
     This class describes how a Reservation instance should be structured.
     """
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {}
 
 
 @define
@@ -117,6 +225,17 @@ class Saga:
     """
 
     series: str
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "series": self.series,
+        }
 
 
 @define
@@ -151,6 +270,25 @@ class User:
         """
         self.card_nr = card_nr
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "email": self.email,
+            "address": self.address,
+            "location": self.location,
+            "name": self.name,
+            "surname": self.surname,
+            "verified": self.verified,
+            "userid": self.userid,
+            "card_nr": self.card_nr,
+            "phone": self.phone,
+        }
+
 
 class UserRoles(Enum):
     """
@@ -170,6 +308,15 @@ class UserRole:
 
     role: UserRoles
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {"role": self.role.value}
+
 
 @define
 class Year:
@@ -182,6 +329,15 @@ class Year:
     @property
     def year(self) -> int:
         return self.date.year
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {"year": self.year}
 
 
 @define
@@ -204,6 +360,15 @@ class Month:
         date_format = "%B"
         return datetime.strftime(self.date, date_format)
 
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {"month": self.month}
+
 
 @define
 class Day:
@@ -216,6 +381,15 @@ class Day:
     @property
     def day(self) -> int:
         return self.date.day
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {"day": self.day}
 
 
 @define
@@ -235,3 +409,22 @@ class Datasource:
     language: list[str] = field(default=None)
     book_format: str = field(default=None)
     author_portrait: str = field(default=None)
+
+    def serialize(self) -> dict[str, Any]:
+        """
+        This method returns the object serialized.
+
+        Returns:
+            dict[str, Any]: the serialized object.
+        """
+        return {
+            "title": self.title,
+            "author": self.author,
+            "publishing": self.publishing,
+            "published_on": self.published_on,
+            "cover": self.cover,
+            "plot": self.plot,
+            "language": self.language,
+            "book_format": self.book_format,
+            "author_portrait": self.author_portrait,
+        }

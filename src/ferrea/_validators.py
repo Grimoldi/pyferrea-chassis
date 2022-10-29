@@ -61,8 +61,9 @@ def validate_publishing_year(instance: Any, attribute: Attribute, value: int) ->
     Raises:
         ValueError: error describing the bad attribute value.
     """
-    is_valid_value = value is not None and isinstance(value, int) and value > 0
-    if not is_valid_value:
-        raise ValueError(
-            f"{attribute.name} should be a valid year (int > 0), received {type(value)} with value {value}."
-        )
+    if value is not None:
+        is_valid_value = isinstance(value, int) and value > 0
+        if not is_valid_value:
+            raise ValueError(
+                f"{attribute.name} should be a valid year (int > 0), received {type(value)} with value {value}."
+            )
