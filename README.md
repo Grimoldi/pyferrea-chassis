@@ -4,8 +4,8 @@ This package contains some helpers class or function.
 
 It's main focus it towards:
 
-- granting a standard for application observability (logger, performance monitoring, tracing) -> chassis.helpers module.
-- granting a standard for python classes (mainly models) -> models.models module.
+- granting a standard for application observability (logger, performance monitoring, tracing) -> ferrea.helpers module.
+- granting a standard for python classes (mainly models) -> ferrea.models module.
 
 ## How to install
 

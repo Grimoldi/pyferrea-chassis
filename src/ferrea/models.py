@@ -139,9 +139,10 @@ class Library:
         return {
             "email": self.email,
             "address": self.address,
-            "location": self.location,
             "name": self.name,
             "phone": self.phone,
+            "latitude": self.location.latitude,
+            "longitude": self.location.longitude,
         }
 
 
@@ -182,7 +183,7 @@ class Rating:
             dict[str, Any]: the serialized object.
         """
         return {
-            "star": self.stars,
+            "stars": self.stars,
         }
 
 
