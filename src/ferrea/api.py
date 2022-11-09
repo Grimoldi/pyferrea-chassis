@@ -8,7 +8,18 @@ from fastapi import FastAPI
 from yamlinclude import YamlIncludeConstructor
 
 
-def init_api(models_path: Path, ferrea_app: str) -> FastAPI:
+def init_api(ferrea_app: str, models_path: Path) -> FastAPI:
+    """
+    This function creates the FastAPI app based on the microservice name.
+    It loads also the OpenApi Schema (oas) from the models path.
+
+    Args:
+        ferrea_app (str): the name of the app.
+        models_path (Path): path under which the oas file can be found.
+
+    Returns:
+        FastAPI: the initialized app.
+    """
     app = FastAPI(
         debug=True,
         openapi_url=f"/openapi/{ferrea_app}.json",
