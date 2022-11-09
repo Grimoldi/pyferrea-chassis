@@ -27,7 +27,6 @@ def init_api(ferrea_app: str, models_path: Path) -> FastAPI:
         title=f"Ferrea - {ferrea_app.title()}",
     )
 
-    models_path = Path(__file__).parent / "definitions"
     YamlIncludeConstructor.add_to_loader_class(
         loader_class=yaml.FullLoader, base_dir=models_path
     )
