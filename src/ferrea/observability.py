@@ -1,5 +1,5 @@
 """
-This module is aimed to provide a standard configuration for all the python Ferrea's libraries.
+This module is aimed to provide a standard configuration for observability across all Ferrea's microservices.
 It sets up the logger, the metrics and the tracer.
 """
 
@@ -7,6 +7,7 @@ import logging
 
 from logstash_formatter import LogstashFormatterV1
 from statsd import StatsClient
+
 
 def init_metrics( host: str, prefix: str|None =None, port: int =8125) -> StatsClient: 
     """
