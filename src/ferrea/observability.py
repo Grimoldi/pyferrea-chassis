@@ -9,7 +9,7 @@ from logstash_formatter import LogstashFormatterV1
 from statsd import StatsClient
 
 
-def init_metrics( host: str, prefix: str|None =None, port: int =8125) -> StatsClient: 
+def init_metrics(host: str, prefix: str | None = None, port: int = 8125) -> StatsClient:
     """
     This function initialize the metrics.
     It uses statsd for performance monitoring.
@@ -35,8 +35,8 @@ def init_logger(level: int = logging.DEBUG) -> logging.Logger:
 
     Returns:
         logging.Logger: the logger.
-    """    
-    logger = logging.getLogger()
+    """
+    logger = logging.getLogger("ferrea")
     logger.setLevel(level)
     formatter = LogstashFormatterV1()
 
@@ -55,6 +55,6 @@ def init_tracer() -> None:
 
     Raises:
         NotImplementedError: currently not implemented yet.
-    """    
+    """
     # raise NotImplementedError("Currently under development")  # TODO Jaeger has been moved to opentelemetry
     ...
