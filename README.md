@@ -1,11 +1,14 @@
 # Package for Ferrea application
 
-This package contains some helpers class or function.
+This package contains some helpers classes or functions.
 
-It's main focus it towards:
+It's main focus is towards granting a standard:
 
-- granting a standard for application observability (logger, performance monitoring, tracing) -> ferrea.helpers module.
-- granting a standard for python classes (mainly models) -> ferrea.models module.
+- application observability (logger, performance monitoring, tracing) -> ferrea.observability module.
+- python classes (mainly models) -> ferrea.models module.
+- initialization for the FastApi webserver -> ferrea.api module.
+- db interface -> ferrea.db_engine module.
+- versioning with the help of the pyproject.toml Poetry file -> ferrea.pyproject module.
 
 ## How to install
 
@@ -15,11 +18,11 @@ pip install git+https://github.com/Grimoldi/pyferrea-chassis.git --upgrade
 
 ## How to use
 
-For the chassis, you can directly import the _helpers_ module and call from it any function you need to init the appropriate helper.
+For the chassis, you can directly import the _observability_ module and call from it any function you need to init the appropriate helper.
 
 ``` python
-from ferrea import chassis
-logger = chassis.init_logger()
+from ferrea import observability
+logger = observability.init_logger()
 ```
 
 For the models, in the same way, you can import the _models_ module and refer to any of its class.
@@ -29,3 +32,5 @@ from ferrea. import models
 author = models.Author("EG")
 rating = models.Rating(5)
 ```
+
+And so on...

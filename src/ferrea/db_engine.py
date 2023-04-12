@@ -4,9 +4,8 @@ import os
 from types import TracebackType
 from typing import Any, Protocol
 
-from neo4j import GraphDatabase, ManagedTransaction
-
 from ferrea import observability
+from neo4j import GraphDatabase, ManagedTransaction
 
 
 class DBInterface(Protocol):
@@ -137,4 +136,4 @@ class Neo4jInterface:
         """
         if params is None:
             params = {}
-        return [result.values() for result in tx.run(query=query, parameters=params)]
+        return [result.values() for result in tx.run(query=query, parameters=params)]  # type: ignore
