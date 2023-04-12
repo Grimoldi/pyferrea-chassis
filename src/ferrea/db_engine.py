@@ -4,8 +4,9 @@ import os
 from types import TracebackType
 from typing import Any, Protocol
 
-from ferrea import observability
 from neo4j import GraphDatabase, ManagedTransaction
+
+from ferrea import observability
 
 
 class DBInterface(Protocol):
@@ -15,7 +16,7 @@ class DBInterface(Protocol):
     They also need read and write methods to interact with the db.
     """
 
-    def __enter__(self) -> type[DBInterface]:
+    def __enter__(self) -> DBInterface:
         ...
 
     def __exit__(
@@ -27,12 +28,12 @@ class DBInterface(Protocol):
         ...
 
     def read(
-        self, query: str, params: dict[str, int | str | float] | None = None
+        self, query: str, params: dict[str, int | str | float] | None = None, **kwargs
     ) -> list[Any]:
         ...
 
     def write(
-        self, query: str, params: dict[str, int | str | float] | None = None
+        self, query: str, params: dict[str, int | str | float] | None = None, **kwargs
     ) -> list[Any]:
         ...
 
@@ -84,7 +85,7 @@ class Neo4jInterface:
         self.driver.close()
 
     def read(
-        self, query: str, params: dict[str, int | str | float] | None = None
+        self, query: str, params: dict[str, int | str | float] | None = None, **kwargs
     ) -> list[Any]:
         """
         This method performs a read operation towards the database.
@@ -101,7 +102,7 @@ class Neo4jInterface:
         return res
 
     def write(
-        self, query: str, params: dict[str, int | str | float] | None = None
+        self, query: str, params: dict[str, int | str | float] | None = None, **kwargs
     ) -> list[Any]:
         """
         This method performs a write operation towards the database.
