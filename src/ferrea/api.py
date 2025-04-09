@@ -1,6 +1,7 @@
 """
 This module aims as a Factory Strategy Pattern for the creation of FastAPI app.
 """
+
 from pathlib import Path
 
 import yaml

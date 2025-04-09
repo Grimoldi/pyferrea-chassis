@@ -2,7 +2,6 @@
 This module is a util to read the pyproject.toml (from poetry) as load it as a PyProject object.
 """
 
-
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
