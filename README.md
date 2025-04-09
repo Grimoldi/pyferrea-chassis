@@ -1,7 +1,7 @@
 
-[![Build and Test](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/format.yaml/badge.svg)](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/format.yaml)
-
 # Package for Ferrea application
+
+[![Python formatting](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/format.yaml/badge.svg)](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/format.yaml)
 
 This package contains some helpers classes or functions.
 
