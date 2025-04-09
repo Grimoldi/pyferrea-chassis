@@ -18,7 +18,7 @@ pip install git+https://github.com/Grimoldi/pyferrea-chassis.git --upgrade
 
 ## How to use
 
-For the chassis, you can directly import the _observability_ module and call from it any function you need to init the appropriate helper.
+For the chassis, you can directly import the `observability` module and call from it any function you need to init the appropriate helper.
 
 ``` python
 from ferrea import observability
