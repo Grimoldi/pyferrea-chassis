@@ -3,6 +3,7 @@
 
 [![Python formatting](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/format.yaml/badge.svg)](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/format.yaml)
 [![Docstrings](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/docstrings.yaml/badge.svg)](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/docstrings.yaml)
+[![Testing](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/testing.yaml/badge.svg)](https://github.com/Grimoldi/pyferrea-chassis/actions/workflows/testing.yaml)
 
 This package contains some helpers classes or functions.
 
