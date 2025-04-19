@@ -15,10 +15,22 @@ It's main focus is towards granting a standard:
 - db interface -> ferrea.db_engine module.
 - versioning with the help of the pyproject.toml Poetry file -> ferrea.pyproject module.
 
+## Notes
+
+Please note that the package is under review, it will be subject to changes in the future.
+
 ## How to install
 
-``` python
-pip install git+https://github.com/Grimoldi/pyferrea-chassis.git --upgrade
+Just with pip
+
+``` bash
+pip install git+https://github.com/Grimoldi/pyferrea-chassis.git@<tag>
+```
+
+or with Poetry:
+
+``` bash
+poetry add git+https://github.com/Grimoldi/pyferrea-chassis.git@<tag>
 ```
 
 ## How to use
