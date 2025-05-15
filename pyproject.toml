@@ -9,8 +9,6 @@ packages = [{include = "ferrea", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-logstash-formatter = "^0.5.17"
-statsd = "^4.0.1"
 neo4j = "^5.28.1"
 geopy = "^2.3.0"
 attrs = "^25.3.0"

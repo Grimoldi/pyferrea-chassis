@@ -192,17 +192,6 @@ files = [
 ]
 
 [[package]]
-name = "logstash-formatter"
-version = "0.5.17"
-description = "JSON formatter meant for logstash"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "logstash_formatter-0.5.17.tar.gz", hash = "sha256:163f5ef62df5459f1d36dcb54e9c3f8f0c90157a324a3361887532b615bf4fb9"},
-]
-
-[[package]]
 name = "loguru"
 version = "0.7.3"
 description = "Python logging made (stupidly) simple"
@@ -546,18 +535,6 @@ anyio = ">=3.6.2,<5"
 full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.18)", "pyyaml"]
 
 [[package]]
-name = "statsd"
-version = "4.0.1"
-description = "A simple statsd client."
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "statsd-4.0.1-py2.py3-none-any.whl", hash = "sha256:c2676519927f7afade3723aca9ca8ea986ef5b059556a980a867721ca69df093"},
-    {file = "statsd-4.0.1.tar.gz", hash = "sha256:99763da81bfea8daf6b3d22d11aaccb01a8d0f52ea521daab37e758a4ca7d128"},
-]
-
-[[package]]
 name = "typing-extensions"
 version = "4.13.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -603,4 +580,4 @@ dev = ["black (>=19.3b0) ; python_version >= \"3.6\"", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "8dc62fd061ccdd54a04e0d6e78f0a2dc2d1128d92b819764abbfc50caa55dea0"
+content-hash = "507e2c3ca67ded8ffd0d49c5692f84280c4e98b0d06496477b3949b4e9c63944"
