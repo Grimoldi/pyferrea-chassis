@@ -3,8 +3,11 @@ import sys
 
 from loguru import logger
 
+ferrea_logger = logger
+
 
 def serialize(record) -> str:
+    """Record's subset fields that will be logged."""
     subset = {
         "timestamp": record["time"].timestamp(),
         "message": record["message"],
@@ -20,10 +23,12 @@ def serialize(record) -> str:
 
 
 def patching(record) -> None:
+    """Add a field under extra that will hold the actual record."""
     record["extra"]["serialized"] = serialize(record)
 
 
 def setup_logger() -> None:
+    """Setup the logger stuff."""
     logger.remove(0)
     _logger = logger.patch(patching)
     logger_format = "{extra[serialized]}"

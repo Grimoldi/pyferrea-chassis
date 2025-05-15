@@ -4,7 +4,7 @@ import pytest
 from loguru import logger
 
 from ferrea.core.context import Context
-from ferrea.f_observability.ferrea_logging import patching
+from ferrea.observability.logs import patching
 
 ALICE = "Alice"
 ALICE_CONTEXT = Context("", "")
@@ -16,6 +16,8 @@ CHARLIE_CONTEXT = Context("hijklmn", "Testing")
 
 @pytest.fixture
 def writer():
+    """Fixture for fetching the logs."""
+
     def w(message):
         w.written.append(message)
 

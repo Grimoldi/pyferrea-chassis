@@ -1,22 +1,22 @@
 from __future__ import annotations
 
-import os
+from dataclasses import dataclass
 from types import TracebackType
-from typing import Any, Protocol
+from typing import Any, LiteralString, Protocol
 
 from neo4j import GraphDatabase, ManagedTransaction
 
-from ferrea import observability
+from ferrea.observability.logs import ferrea_logger
 
 
-class DBInterface(Protocol):
+class DBClient(Protocol):
     """
     Protocol as all DB Interfaces should act.
     They need enter and exit dunder methods for being used as context manager.
     They also need read and write methods to interact with the db.
     """
 
-    def __enter__(self) -> DBInterface: ...
+    def __enter__(self) -> DBClient: ...
 
     def __exit__(
         self,
@@ -34,28 +34,32 @@ class DBInterface(Protocol):
     ) -> list[Any]: ...
 
 
-class Neo4jInterface:
-    """Specific implementation for Neo4J DB."""
+@dataclass
+class Neo4jConnectionSettings:
+    """Dataclass for connection settings like uri and credentials."""
 
-    def __init__(self) -> None:
-        """
-        Initializer of the class.
-        """
-        self.logger = observability.init_logger()
+    uri: str
+    user: str
+    password: str
+    database: str = "neo4j"  # for Aura is set the default
 
-    def __enter__(self) -> Neo4jInterface:
+
+class Neo4jClient:
+    """Specific implementation for Neo4j DB."""
+
+    def __enter__(self, connection_settings: Neo4jConnectionSettings) -> Neo4jClient:
         """
         Dunder method in order to use the 'with' statement.
 
         Returns:
-            DBInterface: the self object.
+            Neo4jClient: the self object.
         """
-        uri = os.environ["DB_URL"]
-        user = os.environ["DB_USR"]
-        pwd = os.environ["DB_PWD"]
-        self.db = "neo4j"  # for Aura is set to neo4j
+        uri = connection_settings.uri
+        user = connection_settings.user
+        pwd = connection_settings.password
+        self.db = connection_settings.database
         self.driver = GraphDatabase.driver(uri, auth=(user, pwd))
-        self.logger.info("Entered with")
+        ferrea_logger.debug("Neo4j client: entered with.")
 
         return self
 
@@ -74,7 +78,7 @@ class Neo4jInterface:
             exc_tb (TracebackType | None): the traceback (if an exception is raised).
         """
         if exc_type is not None:
-            self.logger.exception(
+            ferrea_logger.exception(
                 f"An exception has been raised. {exc_type=}, {exc_value=}, {exc_tb=}"
             )
 
@@ -82,15 +86,14 @@ class Neo4jInterface:
 
     def read(
         self,
-        query: str,
+        query: LiteralString,
         params: dict[str, int | str | float] | None = None,
-        **kwargs,
     ) -> list[Any]:
         """
         This method performs a read operation towards the database.
 
         Args:
-            query (str): the query to send.
+            query (LiteralString): the query to send.
             params (dict[str, int | str | float] | None, optional): parameters of the query. Defaults to None.
 
         Returns:
@@ -102,15 +105,14 @@ class Neo4jInterface:
 
     def write(
         self,
-        query: str,
+        query: LiteralString,
         params: dict[str, int | str | float] | None = None,
-        **kwargs,
     ) -> list[Any]:
         """
         This method performs a write operation towards the database.
 
         Args:
-            query (str): the query to send.
+            query (LiteralString): the query to send.
             params (dict[str, int | str | float] | None, optional): parameters of the query. Defaults to None.
 
         Returns:
@@ -123,7 +125,7 @@ class Neo4jInterface:
     def _run_tx(
         self,
         tx: ManagedTransaction,
-        query: str,
+        query: LiteralString,
         params: dict[str, int | str | float] | None = None,
     ) -> list[Any]:
         """
@@ -131,7 +133,7 @@ class Neo4jInterface:
 
         Args:
             tx (ManagedTransaction): the transaction instance.
-            query (str): the query to send.
+            query (LiteralString): the query to send.
             params (dict[str, int  |  str  |  float] | None, optional): parameters of the query. Defaults to None.
 
         Returns:
@@ -139,4 +141,4 @@ class Neo4jInterface:
         """
         if params is None:
             params = {}
-        return [result.values() for result in tx.run(query=query, parameters=params)]  # type: ignore
+        return [result.values() for result in tx.run(query=query, parameters=params)]
