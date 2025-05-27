@@ -28,4 +28,5 @@ jobs:
         with:
             path: 'src'
             ignore-module: true
-            verbose: true
+            # seems to randomly make the job failing, although above the threshold
+            # verbose: true

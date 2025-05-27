@@ -1,14 +1,12 @@
-import json
 import uuid
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Response
 from fastapi.testclient import TestClient
 
-from ferrea.core.header import get_correlation_id
+from ferrea.core.header import FERRA_CORRELATION_HEADER, get_correlation_id
 
 FOO_ENDPOINT = "/foo"
-FERRA_CORRELATION_HEADER = "ferrea-correlation-id"
 FERREA_CORRELATION_VALUE = str(uuid.uuid4())
 
 
