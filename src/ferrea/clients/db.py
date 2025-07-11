@@ -26,16 +26,26 @@ class DBClient(Protocol):
     ) -> None: ...
 
     def read(
-        self, query: str, params: dict[str, int | str | float] | None = None, **kwargs
+        self,
+        query: LiteralString,
+        params: dict[str, int | str | float] | None = None,
+        **kwargs,
     ) -> list[Any]: ...
 
     def write(
-        self, query: str, params: dict[str, int | str | float] | None = None, **kwargs
+        self,
+        query: LiteralString,
+        params: dict[str, int | str | float] | None = None,
+        **kwargs,
     ) -> list[Any]: ...
+
+    def verify_connectivity(self) -> bool: ...
+
+    def verify_authentication(self) -> bool: ...
 
 
 @dataclass
-class Neo4jConnectionSettings:
+class ConnectionSettings:
     """Dataclass for connection settings like uri and credentials."""
 
     uri: str
@@ -44,21 +54,23 @@ class Neo4jConnectionSettings:
     database: str = "neo4j"  # for Aura is set the default
 
 
+@dataclass
 class Neo4jClient:
     """Specific implementation for Neo4j DB."""
 
-    def __enter__(self, connection_settings: Neo4jConnectionSettings) -> Neo4jClient:
+    connection_settings: ConnectionSettings
+
+    def __enter__(self) -> Neo4jClient:
         """
         Dunder method in order to use the 'with' statement.
 
         Returns:
             Neo4jClient: the self object.
         """
-        uri = connection_settings.uri
-        user = connection_settings.user
-        pwd = connection_settings.password
-        self.db = connection_settings.database
-        self.driver = GraphDatabase.driver(uri, auth=(user, pwd))
+        uri = self.connection_settings.uri
+        auth = (self.connection_settings.user, self.connection_settings.password)
+        self.db = self.connection_settings.database
+        self.driver = GraphDatabase.driver(uri, auth=auth)
         ferrea_logger.debug("Neo4j client: entered with.")
 
         return self
@@ -88,6 +100,7 @@ class Neo4jClient:
         self,
         query: LiteralString,
         params: dict[str, int | str | float] | None = None,
+        **kwargs,
     ) -> list[Any]:
         """
         This method performs a read operation towards the database.
@@ -100,13 +113,14 @@ class Neo4jClient:
             list[Any]: the result records.
         """
         with self.driver.session(database=self.db) as session:
-            res = session.execute_read(self._run_tx, query, params)
+            res = session.execute_read(self._run_tx, query, params, **kwargs)
         return res
 
     def write(
         self,
         query: LiteralString,
         params: dict[str, int | str | float] | None = None,
+        **kwargs,
     ) -> list[Any]:
         """
         This method performs a write operation towards the database.
@@ -119,7 +133,7 @@ class Neo4jClient:
             list[Any]: the result records.
         """
         with self.driver.session(database=self.db) as session:
-            res = session.execute_write(self._run_tx, query, params)
+            res = session.execute_write(self._run_tx, query, params, **kwargs)
         return res
 
     def _run_tx(
@@ -127,6 +141,7 @@ class Neo4jClient:
         tx: ManagedTransaction,
         query: LiteralString,
         params: dict[str, int | str | float] | None = None,
+        **kwargs,
     ) -> list[Any]:
         """
         This method runs a transaction against the database.
@@ -141,4 +156,25 @@ class Neo4jClient:
         """
         if params is None:
             params = {}
-        return [result.values() for result in tx.run(query=query, parameters=params)]
+        return [
+            result.values()
+            for result in tx.run(query=query, parameters=params, **kwargs)
+        ]
+
+    def verify_connectivity(self) -> bool:
+        """Wrapper around the verify_connectivity method of the driver."""
+        try:
+            with self.driver as driver:
+                driver.verify_connectivity(database=self.db)
+            return True
+        except Exception as _:
+            return False
+
+    def verify_authentication(self) -> bool:
+        """Wrapper around the verify_authentication method of the driver."""
+        try:
+            with self.driver as driver:
+                driver.verify_authentication(database=self.db)
+            return True
+        except Exception as _:
+            return False
